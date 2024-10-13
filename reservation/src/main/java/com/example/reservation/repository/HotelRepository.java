@@ -12,4 +12,6 @@ import java.util.List;
 public interface HotelRepository extends JpaRepository<Hotel, Long> {
 
     Page<Hotel> findAll(Pageable of);
+
+
 }

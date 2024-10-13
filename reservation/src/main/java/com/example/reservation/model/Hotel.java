@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -38,5 +39,8 @@ public class Hotel {
 
     @Column(nullable = false)
     private Double price;
+
+    @OneToMany(mappedBy = "hotel", fetch = FetchType.LAZY)
+    private List<Reservation> reservations;
 
 }

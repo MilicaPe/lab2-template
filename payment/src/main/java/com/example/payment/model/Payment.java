@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Entity
 @Table
 @AllArgsConstructor
@@ -16,7 +18,7 @@ public class Payment {
     private Long id;
 
     @Column(unique = true, nullable = false)  // ????? UUID
-    private Long  paymentUid;
+    private UUID paymentUid;
 
     @Column(nullable = false)
     private Status status;

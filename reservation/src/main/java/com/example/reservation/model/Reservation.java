@@ -23,11 +23,12 @@ public class Reservation {
     @Column(nullable = false)
     private String username;
 
-    @Column(nullable = false)
-    private Long paymentUid;
+    @Column(unique = true, nullable = false)
+    private UUID paymentUid;
 
-    @Column
-    private Long hotelId;
+    @ManyToOne
+    @JoinColumn(name="hotel_id")
+    private Hotel hotel;
 
     @Column(nullable = false)
     private Status status;
