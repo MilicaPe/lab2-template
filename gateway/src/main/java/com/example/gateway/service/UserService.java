@@ -1,6 +1,7 @@
 package com.example.gateway.service;
 
 import com.example.gateway.dto.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
@@ -21,20 +22,24 @@ public class UserService {
     @Value("${loyalty.service.url}")
     private String basicLoyalty;
 
-    @Value("${payment.service.url}")
-    private String basicPayment;
+    @Autowired
+    PaymentService paymentService;
 
     public UserInfoResponseDTO getUserInfo(String username) throws URISyntaxException {
         System.out.println(" Stigao na gateway");
         LoyaltyInfoResponseDTO loyalty = getLoyaltyForUser(username);
-        List<ReservationResponseDTO> reservations = getReservationsForUser(username);
-        this.setPaymentForReservations(reservations);
+        List<ReservationResponseDTO> reservations = getReservationsDTOForUser(username);
         return new UserInfoResponseDTO(reservations, loyalty);
     }
 
-    private LoyaltyInfoResponseDTO getLoyaltyForUser(String username) throws URISyntaxException {
+    public List<ReservationResponseDTO> getReservationsDTOForUser(String username) throws URISyntaxException {
+        List<ReservationResponseDTO> reservations = getReservationsForUser(username);
+        this.setPaymentForReservations(reservations);
+        return reservations;
+    }
+
+    public LoyaltyInfoResponseDTO getLoyaltyForUser(String username) throws URISyntaxException {
         URI uri = new URI(this.basicLoyalty.toString() + "/loyalty/"+username);
-        System.out.println(uri.getPath());
         System.out.println(uri.toString());
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
@@ -49,7 +54,6 @@ public class UserService {
 
     private List<ReservationResponseDTO> getReservationsForUser(String username) throws URISyntaxException {
         URI uri = new URI(this.basicReservation.toString() + "/reservation/"+username);
-        System.out.println(uri.getPath());
         System.out.println(uri.toString());
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
@@ -59,7 +63,7 @@ public class UserService {
                 uri,
                 HttpMethod.GET,
                 entity,
-                new ParameterizedTypeReference<ArrayList<ReservationResponseDTO>>() {});
+                new ParameterizedTypeReference<>() {});
         System.out.println(result.getBody());
         System.out.println(result);
         return result.getBody();
@@ -67,25 +71,8 @@ public class UserService {
 
     private void setPaymentForReservations(List<ReservationResponseDTO> reservations) throws URISyntaxException {
         for(ReservationResponseDTO r: reservations){
-            r.setPayment(getPaymentInfo(r.getPaymentUid()));
+            r.setPayment(paymentService.getPaymentInfo(r.getPaymentUid()));
         }
-    }
-
-    private PaymentInfoDTO getPaymentInfo(String paymentUid) throws URISyntaxException {
-        URI uri = new URI(this.basicPayment.toString() + "/payment/"+paymentUid);
-        System.out.println(uri.getPath());
-        System.out.println(uri.toString());
-        RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity entity = new HttpEntity(headers);
-        ResponseEntity<PaymentInfoDTO> result = restTemplate.exchange(
-                uri,
-                HttpMethod.GET,
-                entity,
-                PaymentInfoDTO.class);
-        System.out.println(result.getBody());
-        return result.getBody();
     }
 
 }
