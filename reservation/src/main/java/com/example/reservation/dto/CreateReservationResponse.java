@@ -1,4 +1,4 @@
-package com.example.gateway.dto;
+package com.example.reservation.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,16 +7,12 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReservationResponseDTO {
+public class CreateReservationResponse {
     private String reservationUid;
-    private HotelInfoDTO hotel;
+    private String hotelUid;
     private String startDate;
     private String endDate;
+    private int discount;
     private String status;
-
-    private String paymentUid;
-
-    private PaymentInfoDTO payment;
-
-
+//    private PaymentInfoDTO payment;
 }

@@ -8,4 +8,6 @@ import java.util.List;
 public interface LoyaltyRepository extends JpaRepository<Loyalty, Long> {
 
     Loyalty getLoyaltyByUsername(String username);
+
+
 }

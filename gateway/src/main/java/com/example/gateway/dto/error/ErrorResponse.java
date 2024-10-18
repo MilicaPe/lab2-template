@@ -1,4 +1,4 @@
-package com.example.gateway.dto;
+package com.example.gateway.dto.error;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,8 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PaymentInfoDTO {
-    private String status;
-    private int price;
-
+public class ErrorResponse {
+    private String message;
 }

@@ -7,8 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PaymentInfoDTO {
-    private String status;
-    private int price;
+public class CreateReservationRequest {
+    private String hotelUid;
+    private String startDate;
+    private String endDate;
 
 }

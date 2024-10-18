@@ -12,6 +12,7 @@ public class ReservationResponseDTO {
     private HotelInfoDTO hotel;
     private String startDate;
     private String endDate;
+    private String status;
 
     private String paymentUid;
 

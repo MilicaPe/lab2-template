@@ -24,5 +24,5 @@ public class Payment {
     private Status status;
 
     @Column(nullable = false)
-    private Double price;
+    private Integer price;
 }

@@ -13,5 +13,5 @@ public class PaginationResponseDTO {
     private int page;
     private int pageSize;
     private int totalElements;
-    private List<Object> items;
+    private List<HotelResponseDTO> items;
 }

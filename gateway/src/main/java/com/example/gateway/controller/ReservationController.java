@@ -1,6 +1,8 @@
 package com.example.gateway.controller;
 
 
+import com.example.gateway.dto.CreateReservationRequest;
+import com.example.gateway.dto.CreateReservationResponse;
 import com.example.gateway.dto.ReservationResponseDTO;
 import com.example.gateway.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,4 +29,16 @@ public class ReservationController {
         }
     }
 
+    @PostMapping(value="/reservations")
+    public ResponseEntity makeNewReservation(@RequestHeader("X-User-Name") String username, @RequestBody CreateReservationRequest request) throws URISyntaxException {
+        CreateReservationResponse response = this.reservationService.makeReservation(username, request);
+        return ResponseEntity.status(200).body(response);
+    }
+
+    @DeleteMapping(value = "/reservations/{reservationUid}")
+    public ResponseEntity<?> deleteReservation(@RequestHeader("X-User-Name") String username, @PathVariable String reservationUid) throws URISyntaxException {
+        if(this.reservationService.deleteReservation(username, reservationUid))
+            return ResponseEntity.status(204).build();
+        return ResponseEntity.status(404).build();
+    }
 }

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PaymentInfoDTO {
     private String status;
-    private double price;
+    private int price;
 
     public PaymentInfoDTO(Payment payment){
         this.status = payment.getStatus().toString();
