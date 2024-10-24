@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping
+@RequestMapping("/manage")
 public class HealthController {
-    @GetMapping(value = "/manage/health")
+    @GetMapping("/health")
     private ResponseEntity isAlive(){
         return ResponseEntity.status(200).build();
     }

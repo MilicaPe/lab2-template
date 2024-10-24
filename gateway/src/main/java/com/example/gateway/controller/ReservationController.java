@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URISyntaxException;
 
 @RestController
-@RequestMapping
+@RequestMapping("/api/v1")
 public class ReservationController {
 
     @Autowired
