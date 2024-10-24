@@ -17,11 +17,11 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)  // ????? UUID
+    @Column(unique = true, nullable = false)
     private UUID paymentUid;
 
     @Column(nullable = false)
-    private Status status;
+    private String status;
 
     @Column(nullable = false)
     private Integer price;

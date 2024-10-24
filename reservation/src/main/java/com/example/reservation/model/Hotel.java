@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "hotels")
+@Table(name="hotels")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -19,7 +19,7 @@ public class Hotel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)  // ????? UUID
+    @Column(unique = true, nullable = false)
     private UUID hotelUid;
 
     @Column(nullable = false)

@@ -7,10 +7,11 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name="reservation")
+@Table
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -19,7 +20,7 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)  // ????? UUID
+    @Column(unique = true, nullable = false)
     private UUID reservationUid;
 
     @Column(nullable = false)
@@ -33,12 +34,12 @@ public class Reservation {
     private Hotel hotel;
 
     @Column(nullable = false)
-    private Status status;
+    private String status;
 
-    @Column
-    private LocalDate startDate;
+    @Column(name = "start_date")
+    private OffsetDateTime startDate;
 
-    @Column
-    private LocalDate endDate;
+    @Column(name = "end_data")
+    private OffsetDateTime endDate;
 
 }

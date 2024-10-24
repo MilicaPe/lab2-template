@@ -22,7 +22,7 @@ public class Loyalty {
     private Integer reservationCount;
 
     @Column(nullable = false)
-    private Status status;
+    private String status;
 
     @Column(nullable = false)
     private Integer discount;

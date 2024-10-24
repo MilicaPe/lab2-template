@@ -23,12 +23,12 @@ public class LoyaltyService {
     private void checkLoyaltyStatus(Loyalty loyalty){
         int booking = loyalty.getReservationCount();
         if (booking > 20){
-            loyalty.setStatus(Status.GOLD);
+            loyalty.setStatus("GOLD");
         } else if (booking > 10) {
-            loyalty.setStatus(Status.SILVER);
+            loyalty.setStatus("SILVER");
         }
         else {
-            loyalty.setStatus(Status.BRONZE);
+            loyalty.setStatus("BRONZE");
         }
     }
 

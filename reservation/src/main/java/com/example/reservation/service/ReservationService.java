@@ -3,15 +3,13 @@ package com.example.reservation.service;
 import com.example.reservation.dto.*;
 import com.example.reservation.model.Hotel;
 import com.example.reservation.model.Reservation;
-import com.example.reservation.model.Status;
 import com.example.reservation.repository.HotelRepository;
 import com.example.reservation.repository.ReservationRepository;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -23,7 +21,6 @@ public class ReservationService {
 
     @Autowired
     private HotelRepository hotelRepository;
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
 
 
@@ -33,7 +30,7 @@ public class ReservationService {
         for(Reservation r : reservations){
             HotelInfoDTO hotelInfoDTO = new HotelInfoDTO(r.getHotel());
             responseDTOS.add(new ReservationResponseDTO(r.getReservationUid().toString(),
-                    hotelInfoDTO, r.getStartDate().toString(), r.getEndDate().toString(), r.getStatus().toString(),
+                    hotelInfoDTO, r.getStartDate().toString().split("T")[0], r.getEndDate().toString().split("T")[0], r.getStatus().toString(),
                     r.getPaymentUid().toString()));
         }
         return responseDTOS;
@@ -47,7 +44,7 @@ public class ReservationService {
         else {
             HotelInfoDTO hotelInfoDTO = new HotelInfoDTO(r.getHotel());
             ReservationResponseDTO responseDTO = new ReservationResponseDTO(r.getReservationUid().toString(),
-                    hotelInfoDTO, r.getStartDate().toString(), r.getEndDate().toString(), r.getStatus().toString(),
+                    hotelInfoDTO, r.getStartDate().toString().split("T")[0], r.getEndDate().toString().split("T")[0], r.getStatus(),
                     r.getPaymentUid().toString());
             return responseDTO;
         }
@@ -58,10 +55,10 @@ public class ReservationService {
         Reservation reservation = new Reservation();
         reservation.setUsername(username);
         reservation.setHotel(hotel);
-        reservation.setStatus(Status.valueOf(reservationDTO.getStatus()));
+        reservation.setStatus(reservationDTO.getStatus());
         reservation.setPaymentUid(UUID.fromString(reservationDTO.getPaymentUid()));
-        reservation.setStartDate(LocalDate.parse(reservationDTO.getStartDate(), formatter));
-        reservation.setEndDate(LocalDate.parse(reservationDTO.getEndDate(), formatter));
+        reservation.setStartDate(OffsetDateTime.parse(reservationDTO.getStartDate()+"T12:00:00+03:00"));
+        reservation.setEndDate(OffsetDateTime.parse(reservationDTO.getEndDate()+"T12:00:00+03:00"));
         reservation.setReservationUid(UUID.randomUUID());
 
         Reservation saved = this.reservationRepository.save(reservation);
@@ -71,10 +68,10 @@ public class ReservationService {
     private CreateReservationResponse formCreateReservationResponse(Reservation reservation){
         CreateReservationResponse response = new CreateReservationResponse();
         response.setReservationUid(reservation.getReservationUid().toString());
-        response.setStartDate(reservation.getStartDate().toString());
-        System.out.println(reservation.getStartDate().toString());
+        response.setStartDate(reservation.getStartDate().toLocalDate().toString());
+        System.out.println(reservation.getStartDate().toLocalDate().toString().split("T")[0]);
 
-        response.setEndDate(reservation.getEndDate().toString());
+        response.setEndDate(reservation.getEndDate().toString().split("T")[0]);
         response.setHotelUid(reservation.getHotel().getHotelUid().toString());
         response.setStatus(reservation.getStatus().toString());
         return response;
@@ -86,7 +83,7 @@ public class ReservationService {
             System.out.println("nema takve rezervacije");
             return null;
         }
-        r.setStatus(Status.CANCELED);
+        r.setStatus("CANCELED");
         Reservation updated = this.reservationRepository.save(r);
         return new ReservationDTO(updated.getStatus().toString(),
                 updated.getStartDate().toString(),
