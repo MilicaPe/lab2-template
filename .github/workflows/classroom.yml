@@ -61,7 +61,4 @@ jobs:
           distribution: 'temurin'
 
       - name: Gateway Unit test
-        run:
-          mvn -f ./gateway/pom.xml clean test -Djava.version=17
-        env:
-        ENVIRONMENT: test
+        run:  mvn -f ./gateway/pom.xml clean test -Djava.version=17
