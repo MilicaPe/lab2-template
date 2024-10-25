@@ -17,13 +17,13 @@ public class ReservationController {
     @Autowired
     private ReservationService reservationService;
 
-    @GetMapping(value = "/reservation")  // /{username}
+    @GetMapping(value = "/reservation")
     public ResponseEntity<List<ReservationResponseDTO>> getAllReservationsForUser(@RequestHeader("X-User-Name") String username){
         List<ReservationResponseDTO> result = this.reservationService.getReservationsByUser(username);
         return ResponseEntity.status(200).body(result);
     }
 
-    @GetMapping(value = "/reservation/{reservationUid}")   // /{username}
+    @GetMapping(value = "/reservation/{reservationUid}")
     public ResponseEntity <ReservationResponseDTO> getReservationForUser(@PathVariable String reservationUid, @RequestHeader("X-User-Name") String username){
         try {
             ReservationResponseDTO result = this.reservationService.getReservationByUser(reservationUid, username);

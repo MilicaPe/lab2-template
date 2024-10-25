@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ValidationErrorResponse {
+public class ValidationErrorResponse extends Throwable {
     private String message;
     private List<ErrorDescription> descriptions;
 }
