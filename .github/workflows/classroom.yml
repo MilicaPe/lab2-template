@@ -35,7 +35,7 @@ jobs:
       - name: Run Gateway Tests
         timeout-minutes: 10
         run:
-          mvn -f ./gateway/pom.xml clean test
+          mvn -f ./gateway/pom.xml clean test -Djava.version=17
         env:
           ENVIRONMENT: test
 
