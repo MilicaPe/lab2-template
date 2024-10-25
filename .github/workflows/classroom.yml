@@ -31,20 +31,11 @@ jobs:
         env:
           WAIT_PORTS: 8080,8070,8060,8050
 
-      - name: Check running services
-        run: docker compose ps
-
-      - name: Check Gateway Logs
-        if: failure()
-        run: docker compose logs gateway
-
-      - name: Wait for Gateway to Be Ready
-        run: sleep 20
 
       - name: Run Gateway Tests
         timeout-minutes: 10
-        run: |
-          docker compose exec gateway mvn test
+        run:
+          mvn -f ./gateway/pom.xml test
         env:
           ENVIRONMENT: test
 
